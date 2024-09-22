@@ -27,6 +27,9 @@ public class CustomSecurityConfig {
         return http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/task-api-docs/**").permitAll()
+                        .requestMatchers("swagger-ui/**").permitAll()
+                        .requestMatchers("/task-api-docs.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
