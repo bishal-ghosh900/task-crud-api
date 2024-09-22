@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
@@ -26,10 +28,12 @@ public class AuthenticationService {
     @Transactional
     public User registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        User registeredUser = userRepository.save(user);
+        registeredUser.setTasks(null);
         return user;
     }
 
+    // we don't need login, but this is just for learning purpose
     public User loginUser(User user) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
@@ -39,6 +43,8 @@ public class AuthenticationService {
         if(!authentication.isAuthenticated()) {
             throw new UserAuthenticationException("username/password not matched", HttpStatus.UNAUTHORIZED);
         }
-        return userRepository.findByUsername(user.getUsername()).orElseThrow();
+        User dbUser = userRepository.findByUsername(user.getUsername()).orElseThrow();
+        dbUser.setTasks(null);
+        return dbUser;
     }
 }

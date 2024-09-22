@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             )
        """
     )
-    User findUserWithTasksByUsername(
+    User findUserWithTasksByUserId(
             @Param("userId") int userId,
             @Param("pageNumber") int pageNumber,
             @Param("maxCount") int maxCount

@@ -39,6 +39,7 @@ public class User extends BaseEntity implements UserDetails {
             targetEntity = Task.class,
             cascade = { CascadeType.ALL }
     )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Task> tasks;
 
     @Override
