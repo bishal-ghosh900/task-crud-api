@@ -1,0 +1,24 @@
+services:
+  taskCrudDb:
+    container_name: "taskCrudDb"
+    image: mysql
+    ports:
+      - 3307:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "taskCrudDb"]
+      timeout: 5s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: spring_security_test
+      MYSQL_USER: springstudent
+      MYSQL_PASSWORD: springstudent
+
+  task-crud-api:
+    container_name: "task-crud-api"
+    image: "ghoshbishal/task-crud-api:latest"
+    ports:
+      - 8080:8080
+    depends_on:
+      taskCrudDb:
+        condition: service_healthy
